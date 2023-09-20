@@ -1,12 +1,29 @@
-package modules
+package pkg
 
 import (
 	"github.com/eser/go-service/lib/httpserv"
 	"github.com/eser/go-service/pkg/entities"
-	healthCheck "github.com/eser/go-service/pkg/health-check"
+	"github.com/eser/go-service/pkg/healthcheck"
+	"github.com/eser/go-service/pkg/shared"
+	"go.uber.org/fx"
 )
 
-func RegisterRoutes(rg *httpserv.RouterGroup) {
-	entities.RegisterRoutes(rg)
-	healthCheck.RegisterRoutes(rg)
+func NewRootRouter(hs *httpserv.HttpServ) *httpserv.RouterGroup {
+	routes := hs.Engine.Group("/")
+	routes.Use(shared.ErrorHandler())
+
+	return routes
 }
+
+var (
+	AppModule = fx.Module(
+		"app",
+		fx.Provide(
+			NewRootRouter,
+		),
+		fx.Invoke(
+			entities.RegisterRoutes,
+			healthcheck.RegisterRoutes,
+		),
+	)
+)

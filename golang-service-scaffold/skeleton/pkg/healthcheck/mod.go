@@ -1,4 +1,4 @@
-package healthCheck
+package healthcheck
 
 import (
 	"github.com/eser/go-service/lib/httpserv"
@@ -8,11 +8,9 @@ import (
 )
 
 func RegisterRoutes(rg *httpserv.RouterGroup) {
-	routes := rg // .Group("/health-check")
-
 	conf := config.Config{HealthPath: "/health-check"}
 
 	checks := []checks.Check{}
 
-	routes.GET(conf.HealthPath, controllers.HealthcheckController(checks, conf))
+	rg.GET(conf.HealthPath, controllers.HealthcheckController(checks, conf))
 }

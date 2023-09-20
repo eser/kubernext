@@ -1,4 +1,4 @@
-package infra
+package lib
 
 import (
 	"github.com/eser/go-service/lib/config"
@@ -9,7 +9,7 @@ import (
 
 var (
 	GetFxLogger = log.GetFxLogger
-	Module      = fx.Module(
+	InfraModule = fx.Module(
 		"infra",
 		fx.Provide(
 			log.NewLogger,
