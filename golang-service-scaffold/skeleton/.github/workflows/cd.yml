@@ -1,0 +1,64 @@
+name: Continuous Deployment
+
+on:
+  # workflow_run:
+  #   workflows:
+  #     - Continuous Integration
+  #   types:
+  #     - completed
+  #   branches:
+  #     - main
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
+    name: Deployment
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    # needs: integration
+    # if: success() && github.ref == 'refs/heads/main'
+
+    env:
+      ECR_REPOSITORY: golang-service
+      ECS_CLUSTER: golang-service
+      IMAGE_TAG: "${{ github.sha::8 }}"
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          GH_LOGIN: ${{ secrets.GH_LOGIN }}
+          GH_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+          GH_PATH: ${{ secrets.GH_PATH }}
+        run: |
+          # aws ecr batch-delete-image --repository-name $ECR_REGISTRY --image-ids imageTag=$IMAGE_TAG > /dev/null 2>&1
+          docker build --build-arg GH_LOGIN=$GH_LOGIN --build-arg GH_ACCESS_TOKEN=$GH_ACCESS_TOKEN --build-arg GH_PATH=$GH_PATH -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY --all-tags
+
+      - name: Publish
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          ecs deploy $ECS_CLUSTER $ECR_REPOSITORY --tag $IMAGE_TAG --timeout -1

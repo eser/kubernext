@@ -1,0 +1,57 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowArbitraryExtensions": true,
+    "checkJs": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "strict": true
+  },
+  "lock": true,
+  "imports": {
+    "$std/": "https://deno.land/std@0.200.0/",
+    "$hex/": "https://deno.land/x/hex@0.6.5/src/",
+    "$ulid/": "https://deno.land/x/ulid@v0.3.0/",
+    "$zod/": "https://deno.land/x/zod@v3.22.2/"
+  },
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ]
+    },
+    "exclude": [
+      "./tmp/"
+    ]
+  },
+  "fmt": {
+    "exclude": [
+      "./tmp/"
+    ]
+  },
+  "test": {
+    "include": [
+      "./src/**/*.test.[js,jsx,ts,tsx]"
+    ]
+  },
+  "bench": {
+    "include": [
+      "./src/**/*.bench.[js,jsx,ts,tsx]"
+    ]
+  },
+  "tasks": {
+    "cleanup": "rm deno.lock && deno cache --unstable --reload ./src/mod.ts",
+    "start": "deno run --unstable ./src/main.ts",
+    "dev": "deno run --unstable --watch ./src/main.ts",
+    "check": "deno run --unstable --check --reload ./src/mod.ts",
+    "test": "deno test --unstable --parallel --watch",
+    "test:run": "deno test --unstable --parallel --coverage=./etc/coverage/",
+    "test:coverage": "deno coverage ./etc/coverage/",
+    "test:generate-lcov": "deno coverage ./etc/coverage --lcov > ./etc/coverage/cov_profile.lcov",
+    "cli": "cd ./src/ && deno repl --unstable --allow-all --eval-file=./cli-init.ts && cd ../",
+    "seed": "deno run --unstable --allow-all ./src/data/seed.ts",
+    "deploy": "export $(grep -v '^#' .env.local | xargs -0) && deployctl deploy --project=$DENO_DEPLOY_PROJECT_ID ./src/main.ts"
+  }
+}

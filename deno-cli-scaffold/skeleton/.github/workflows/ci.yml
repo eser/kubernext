@@ -1,0 +1,54 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+    branches:
+      - "**"
+
+  # schedule:
+  #   - cron: "18 21 * * 6"
+
+jobs:
+  integration:
+    name: Integration
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    strategy:
+      matrix:
+        deno-version:
+          - 1.36.3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+
+      - name: Setup Deno ${{ matrix.deno-version }}
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ matrix.deno-version }}
+
+      - name: Verify formatting
+        run: deno fmt --check
+
+      - name: Lint
+        run: deno lint
+
+      - name: Check if modules are broken
+        run: deno task check
+
+      - name: Run tests
+        run: deno task test:run

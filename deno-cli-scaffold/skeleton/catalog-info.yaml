@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+
+metadata:
+  name: ${{ values.slug }}
+  {%- if values.description %}
+  description: ${{ values.description | dump }}
+  {%- endif %}
+
+  annotations:
+    github.com/project-slug: ${{ values.githubRepo }}
+    {%- if values.sonarqubeProjectKey %}
+    sonarqube.org/project-key: ${{ values.sonarqubeProjectKey }}
+    {%- endif %}
+    backstage.io/code-coverage: enabled
+    backstage.io/techdocs-ref: dir:.
+
+  tags:
+    - typescript
+    - deno
+
+spec:
+  type: ${{ values.projectType | dump }}
+  lifecycle: ${{ values.lifecycle | dump }}
+  owner: ${{ values.owner | dump }}
