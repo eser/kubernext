@@ -111,6 +111,11 @@ func RegisterHooks(lc fx.Lifecycle, hs *HttpServ, conf *config.Config, logger *l
 				return err
 			}
 
+			select {
+			case <-ctx.Done():
+				logger.Info("HttpServ shutdown timed out")
+			}
+
 			logger.Info("HttpServ exiting")
 
 			return nil
