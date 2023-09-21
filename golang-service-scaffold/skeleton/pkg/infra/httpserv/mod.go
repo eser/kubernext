@@ -8,8 +8,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/eser/go-service/lib/config"
-	"github.com/eser/go-service/lib/log"
+	"github.com/eser/go-service/pkg/infra/config"
+	"github.com/eser/go-service/pkg/infra/log"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
@@ -48,8 +48,20 @@ func NewHttpServ(conf *config.Config, logger *log.Logger) (*HttpServ, error) {
 
 	// cors
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowAllOrigins = true
-	corsConfig.AllowHeaders = []string{"*"}
+
+	if conf.CorsOrigin == "" {
+		corsConfig.AllowAllOrigins = true
+	} else {
+		corsConfig.AllowOrigins = []string{conf.CorsOrigin}
+	}
+
+	if conf.CorsStrictHeaders {
+		corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"}
+	} else {
+		corsConfig.AllowHeaders = []string{"*"}
+	}
+
+	corsConfig.ExposeHeaders = []string{"Content-Length"}
 	corsConfig.AllowCredentials = true
 
 	engine.Use(cors.New(corsConfig))

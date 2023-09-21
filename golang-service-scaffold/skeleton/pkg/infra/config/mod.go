@@ -8,9 +8,19 @@ import (
 )
 
 type Config struct {
-	AppName string `mapstructure:"APP_NAME"`
-	Env     string `mapstructure:"ENV"`
-	Port    string `mapstructure:"PORT"`
+	Env string `mapstructure:"ENV"`
+
+	AppName           string `mapstructure:"APP_NAME"`
+	Port              string `mapstructure:"PORT"`
+	CorsOrigin        string `mapstructure:"CORS_ORIGIN"`
+	CorsStrictHeaders bool   `mapstructure:"CORS_STRICT_HEADERS"`
+	RedisAddr         string `mapstructure:"REDIS_ADDR"`
+	RedisPwd          string `mapstructure:"REDIS_PWD"`
+	RedisConnCheck    bool   `mapstructure:"REDIS_CONN_CHECK"`
+	MongoAddr         string `mapstructure:"MONGO_ADDR"`
+	MongoMaxPoolSize  uint64 `mapstructure:"MONGO_MAX_POOL_SIZE"`
+	MongoConnCheck    bool   `mapstructure:"MONGO_CONN_CHECK"`
+	MongoConnTimeout  uint64 `mapstructure:"MONGO_CONN_TIMEOUT"`
 }
 
 func loadConfig(filename string) error {

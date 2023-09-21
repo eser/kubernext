@@ -58,9 +58,9 @@ spec:
           title: Repository Location
           type: string
           ui:field: RepoUrlPicker
-          # ui:options:
-          #   allowedHosts:
-          #     - github.com
+          ui:options:
+            allowedHosts:
+              - github.com
           #   allowedOrganizations:
           #     - acikkaynak
 
@@ -89,8 +89,7 @@ spec:
       name: Publish
       action: publish:github
       input:
-        # allowedHosts: ['github.com']
-        # allowedOrganizations: ['acikkaynak']
+        allowedHosts: ['github.com']
         description: ${{ parameters.name }}
         repoUrl: ${{ parameters.repoUrl }}
 

@@ -2,7 +2,6 @@ package entities
 
 import (
 	"github.com/eser/go-service/pkg/shared"
-	"github.com/oklog/ulid/v2"
 )
 
 // definition
@@ -38,7 +37,7 @@ type CreateRecordDto struct {
 
 func (s *Service) CreateRecord(dto CreateRecordDto, audit *shared.AuditRecord) error {
 	record := Model{
-		Id:       ulid.MustNew(ulid.Now(), nil).String(),
+		Id:       shared.GenerateUniqueId(),
 		Fullname: dto.Fullname,
 	}
 

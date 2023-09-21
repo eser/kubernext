@@ -1,7 +1,7 @@
 package healthcheck
 
 import (
-	"github.com/eser/go-service/lib/httpserv"
+	"github.com/eser/go-service/pkg/infra/httpserv"
 	"github.com/tavsec/gin-healthcheck/checks"
 	"github.com/tavsec/gin-healthcheck/config"
 	"github.com/tavsec/gin-healthcheck/controllers"

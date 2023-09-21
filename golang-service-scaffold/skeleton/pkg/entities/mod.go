@@ -1,7 +1,7 @@
 package entities
 
 import (
-	"github.com/eser/go-service/lib/httpserv"
+	"github.com/eser/go-service/pkg/infra/httpserv"
 	"github.com/eser/go-service/pkg/shared"
 )
 

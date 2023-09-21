@@ -3,7 +3,7 @@ package log
 import (
 	"time"
 
-	"github.com/eser/go-service/lib/config"
+	"github.com/eser/go-service/pkg/infra/config"
 	"go.uber.org/fx/fxevent"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

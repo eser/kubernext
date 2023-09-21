@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eser/go-service/lib/log"
+	"github.com/eser/go-service/pkg/infra/log"
 	"github.com/gin-gonic/gin"
 )
 

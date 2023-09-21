@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/eser/go-service/lib/httpserv"
+	"github.com/eser/go-service/pkg/infra/httpserv"
 	"github.com/go-playground/validator/v10"
 )
 
@@ -22,7 +22,7 @@ func getErrorMessageFromFieldError(fe validator.FieldError) string {
 	return "Unknown error"
 }
 
-func ErrorHandler() httpserv.HandlerFunc {
+func ErrorHandlerMiddleware() httpserv.HandlerFunc {
 	return func(c *httpserv.Context) {
 		c.Next()
 
