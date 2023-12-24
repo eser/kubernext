@@ -39,6 +39,5 @@ __debug_bin
 *.pem
 *.swp
 
-# temporary files
-/tmp/*
-!/tmp/.gitkeep
+# coverage output
+/coverage.lcov

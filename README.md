@@ -10,7 +10,8 @@ needs.
 
 ## Codebase
 
-| Directory   | Description                  | Link              |
-| ----------- | ---------------------------- | ----------------- |
-| `docs/adr/` | Architectural Design Records | [Go](./docs/adr/) |
-| `infra/`    | Infrastructure as Code       | [Go](./infra/)    |
+| Directory    | Description                  | Link               |
+| ------------ | ---------------------------- | ------------------ |
+| `docs/adr/`  | Architectural Design Records | [Go](./docs/adr/)  |
+| `infra/`     | Infrastructure as Code       | [Go](./infra/)     |
+| `templates/` | Project boilerplates         | [Go](./templates/) |

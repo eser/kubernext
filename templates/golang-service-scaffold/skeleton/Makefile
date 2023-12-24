@@ -26,8 +26,8 @@ test:
 	go test -v ./...
 
 cov:
-	go test -v --coverpkg=./... --coverprofile=./tmp/coverage.out ./...
-	`go env GOPATH`/bin/gcov2lcov -infile ./tmp/coverage.out -outfile ./tmp/coverage.lcov
+	go test -v --coverpkg=./... --coverprofile=${TMPDIR}coverage.out ./...
+	`go env GOPATH`/bin/gcov2lcov -infile ${TMPDIR}coverage.out -outfile ./coverage.lcov
 
 dep:
 	go mod download

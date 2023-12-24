@@ -25,7 +25,3 @@ Thumbs.db
 # sensitive files
 *.pem
 *.swp
-
-# temporary files
-/tmp/*
-!/tmp/.gitkeep

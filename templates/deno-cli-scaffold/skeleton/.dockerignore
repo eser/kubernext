@@ -1,7 +1,6 @@
 .github/*
 .vscode/*
 docs/*
-tmp/*
 .dockerignore
 .editorconfig
 .gitattributes

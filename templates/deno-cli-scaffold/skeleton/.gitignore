@@ -25,7 +25,3 @@ Thumbs.db
 # coverage files
 /etc/coverage/*.json
 /etc/coverage/cov_profile.lcov
-
-# temporary files
-/tmp/*
-!/tmp/.gitkeep
