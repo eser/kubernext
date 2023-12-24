@@ -11,6 +11,17 @@ Thumbs.db
 !.vscode/settings.json
 .idea/*
 
+# local API keys and secrets
+.env.local
+.env.*.local
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
 # sensitive files
 *.pem
 *.swp

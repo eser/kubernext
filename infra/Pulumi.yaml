@@ -1,0 +1,7 @@
+name: kubernext
+runtime: nodejs
+description: Next generation of our infrastructure
+
+config:
+  kubernext:useLoadBalancer: "true"
+  kubernext:frontendPort: "80"

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "golang.go",
+    "ryanluker.vscode-coverage-gutters",
+    "chdsbd.github-code-owners",
+    "humao.rest-client"
+  ]
+}

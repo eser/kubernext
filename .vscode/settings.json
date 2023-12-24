@@ -1,0 +1,9 @@
+{
+    "deno.enable": false,
+    "yaml.schemas": {
+      "https://json.schemastore.org/github-workflow.json": "./.github/workflows/*.yml"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}

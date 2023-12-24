@@ -5,5 +5,5 @@ metadata:
   description: A collection of templates
 spec:
   targets:
-    - ./deno-cli-scaffold/catalog-info.yaml
-    - ./golang-service-scaffold/catalog-info.yaml
+    - ./templates/deno-cli-scaffold/catalog-info.yaml
+    - ./templates/golang-service-scaffold/catalog-info.yaml
