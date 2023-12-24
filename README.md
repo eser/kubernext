@@ -1,6 +1,6 @@
 # Project KuberNeXT
 
-This project aims to build a well-defined and modern structure for our tribe
+This project aims to build a well-defined and modern structure for our team
 needs.
 
 ## Decision Logs
