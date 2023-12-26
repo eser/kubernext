@@ -1,3 +1,5 @@
+import * as path from "path";
+import * as os from "os";
 import * as pulumi from "@pulumi/pulumi";
 
 export const instance = new pulumi.Config();
@@ -8,3 +10,11 @@ export const instance = new pulumi.Config();
 export const useLoadBalancer = instance.requireBoolean("useLoadBalancer");
 
 export const frontendPort = instance.requireNumber("frontendPort");
+
+// determine the path to the kubeconfig file. If not specified, we'll assume
+// it's the default one
+const kubeconfigPathSet = instance.get("kubeconfigPath") ?? "~/.kube/config";
+
+export const kubeconfigPath = kubeconfigPathSet.startsWith("~/")
+  ? path.join(os.homedir(), kubeconfigPathSet.substring(2))
+  : kubeconfigPathSet;
