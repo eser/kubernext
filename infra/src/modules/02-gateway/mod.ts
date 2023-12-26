@@ -1,4 +1,6 @@
 import * as k8s from "@pulumi/kubernetes";
+// import * as tls from "@pulumi/tls";
+import * as config from "../../config";
 import * as targets from "../../targets";
 import * as primitives from "../00-primitives/mod";
 
@@ -13,7 +15,48 @@ export const gatewayCrds = new k8s.yaml.ConfigFile(
   { provider: targets.k8sProvider },
 );
 
+// certificates
+
+// export const sharedTlsCerts = new tls.PrivateKey("shared-tls-certs", {
+//   algorithm: "RSA",
+//   rsaBits: 4096,
+// });
+
+// const privateKey = sharedTlsCerts.privateKeyPemPkcs8.apply((k) =>
+//   Buffer.from(k).toString("base64")
+// );
+
+// const publicKey = sharedTlsCerts.publicKeyPem.apply((k) =>
+//   Buffer.from(k).toString("base64")
+// );
+
+const privateKey = config.privateKey;
+const publicKey = config.publicKey;
+
+// secrets
+
+export let sharedTls: k8s.core.v1.Secret | undefined = undefined;
+
+if (privateKey !== undefined && publicKey !== undefined) {
+  sharedTls = new k8s.core.v1.Secret("shared-tls", {
+    metadata: {
+      name: "shared-tls",
+    },
+    type: "tls",
+    data: {
+      "tls.key": privateKey,
+      "tls.crt": publicKey,
+    },
+  });
+}
+
 // gateways
+
+const certificateRefs = [];
+
+if (sharedTls !== undefined) {
+  certificateRefs.push({ name: sharedTls.metadata.name });
+}
 
 export const gateway = new k8s.apiextensions.CustomResource(
   "gateway",
@@ -38,13 +81,7 @@ export const gateway = new k8s.apiextensions.CustomResource(
           protocol: "HTTPS",
           tls: {
             mode: "Terminate",
-            certificateRefs: [
-              {
-                kind: "Secret",
-                group: "",
-                name: "shared-tls",
-              },
-            ],
+            certificateRefs: certificateRefs,
           },
         },
       ],

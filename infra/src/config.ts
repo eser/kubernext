@@ -13,8 +13,14 @@ export const frontendPort = instance.requireNumber("frontendPort");
 
 // determine the path to the kubeconfig file. If not specified, we'll assume
 // it's the default one
-const kubeconfigPathSet = instance.get("kubeconfigPath") ?? "~/.kube/config";
+// const kubeconfigPathSet = instance.get("kubeconfigPath") ?? "~/.kube/config";
+const kubeconfigPathSet = "~/.kube/config";
 
 export const kubeconfigPath = kubeconfigPathSet.startsWith("~/")
   ? path.join(os.homedir(), kubeconfigPathSet.substring(2))
   : kubeconfigPathSet;
+
+// keys
+
+export const privateKey = instance.get("privateKey");
+export const publicKey = instance.get("publicKey");
