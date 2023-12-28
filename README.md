@@ -22,3 +22,4 @@ setting some rules.
 | `docs/adr/`  | Architectural Design Records | [Go](./docs/adr/)  |
 | `infra/`     | Infrastructure as Code       | [Go](./infra/)     |
 | `templates/` | Project boilerplates         | [Go](./templates/) |
+| `apps/`      | App packages ready to deploy | [Go](./apps/)      |
