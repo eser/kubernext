@@ -4,6 +4,17 @@ import * as config from "../../config";
 import * as targets from "../../targets";
 import * as primitives from "../00-primitives/mod";
 
+const allowedRoutes = {
+  namespaces: {
+    from: "Selector",
+    selector: {
+      matchLabels: {
+        "shared-gateway-access": "true",
+      },
+    },
+  },
+};
+
 // custom resources
 
 export const gatewayCrds = new k8s.yaml.ConfigFile(
@@ -74,6 +85,7 @@ export const gateway = new k8s.apiextensions.CustomResource(
           name: "http",
           port: 80,
           protocol: "HTTP",
+          allowedRoutes: allowedRoutes,
         },
         {
           name: "https",
@@ -83,6 +95,7 @@ export const gateway = new k8s.apiextensions.CustomResource(
             mode: "Terminate",
             certificateRefs: certificateRefs,
           },
+          allowedRoutes: allowedRoutes,
         },
       ],
     },

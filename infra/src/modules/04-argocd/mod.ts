@@ -56,27 +56,11 @@ export const httpRoute = new k8s.apiextensions.CustomResource(
           namespace: gateway.gateway.metadata.namespace,
         },
       ],
+      hostnames: [
+        "cd.eser.land",
+      ],
       rules: [
         {
-          matches: [
-            {
-              path: {
-                type: "PathPrefix",
-                value: "/cd/",
-              },
-            },
-          ],
-          filters: [
-            {
-              type: "URLRewrite",
-              urlRewrite: {
-                path: {
-                  type: "ReplacePrefixMatch",
-                  replacePrefixMatch: "/",
-                },
-              },
-            },
-          ],
           backendRefs: [
             {
               name: "argocd-server",
