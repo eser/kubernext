@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: ../
+    develop:
+      watch:
+        - action: sync
+          path: ../src/
+          target: /app/
+          ignore:
+            - .git/
+        - action: sync+restart
+          path: ../deployments/nginx.conf
+          target: /etc/nginx/nginx.conf
+        - action: rebuild
+          files:
+            - ../Dockerfile
+            - ../docker-compose.yml
+    # env_file:
+    #   - ./.env
+    #   - ./.env.development
+    #   - ./.env.local
+    #   - ./.env.development.local
+    networks:
+      - nginx-test-network
+    ports:
+      - 8080:8080
+
+networks:
+  nginx-test-network:
+    driver: bridge

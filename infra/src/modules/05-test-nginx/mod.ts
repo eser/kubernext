@@ -20,7 +20,7 @@ export const application = new k8s.apiextensions.CustomResource(
       source: {
         repoURL: "https://github.com/eser/kubernext.git",
         targetRevision: "HEAD",
-        path: "apps/nginx-test/deploy/k8s/overlays/default",
+        path: "apps/nginx-test/deployments/k8s/overlays/default",
       },
       destination: {
         server: "https://kubernetes.default.svc",

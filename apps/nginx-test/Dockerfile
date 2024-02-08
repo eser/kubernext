@@ -2,7 +2,7 @@ FROM nginxinc/nginx-unprivileged:1-bookworm AS runner
 
 WORKDIR /app
 
-COPY ./deploy/nginx.conf /etc/nginx/nginx.conf
+COPY ./deployments/nginx.conf /etc/nginx/nginx.conf
 COPY ./src/ ./
 
 EXPOSE 8080

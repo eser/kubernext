@@ -2,3 +2,7 @@
 
 # Dependency directories
 /node_modules/
+
+# Pulumi
+.pulumi/*
+Pulumi.*.yaml
