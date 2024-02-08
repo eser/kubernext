@@ -19,7 +19,7 @@ After cloning this repo, run these commands from the working directory:
 1. Login to pulumi:
 
    ```bash
-   $ pulumi login
+   $ pulumi login [your-pulumi-state-bucket-url]
    ```
 
 2. Execute the Pulumi program to create or update your infra:
