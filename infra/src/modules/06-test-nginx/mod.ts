@@ -1,6 +1,7 @@
+// Copyright 2023-present Eser Ozvataf and other contributors. All rights reserved. Apache-2.0 license.
 import * as k8s from "@pulumi/kubernetes";
 import * as targets from "../../targets";
-import * as argocd from "../04-argocd/mod";
+import * as argocd from "../05-argocd/mod";
 
 const appName = "nginx-test";
 

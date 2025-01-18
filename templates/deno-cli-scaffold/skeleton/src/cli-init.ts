@@ -1,3 +1,4 @@
+// Copyright 2023-present Eser Ozvataf and other contributors. All rights reserved. Apache-2.0 license.
 import { loadEnv } from "$hex/lib/options/env.ts";
 import { Connection } from "./data/connection.ts";
 import * as mod from "./mod.ts";

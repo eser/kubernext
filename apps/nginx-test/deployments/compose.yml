@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   nginx:
     build:
@@ -17,7 +15,7 @@ services:
         - action: rebuild
           files:
             - ../Dockerfile
-            - ../docker-compose.yml
+            - ../compose.yml
     # env_file:
     #   - ./.env
     #   - ./.env.development

@@ -1,10 +1,11 @@
+// Copyright 2023-present Eser Ozvataf and other contributors. All rights reserved. Apache-2.0 license.
 import * as k8s from "@pulumi/kubernetes";
 import * as targets from "../../targets";
-import * as gateway from "../02-gateway/mod";
+import * as gateway from "../03-gateway/mod";
 
 // namespaces
 
-const nsName = "argocd";
+const nsName = "argowf";
 export const ns = new k8s.core.v1.Namespace(
   nsName,
   {
@@ -21,18 +22,13 @@ export const ns = new k8s.core.v1.Namespace(
 // helm charts
 
 export const chart = new k8s.helm.v3.Chart(
-  "argocd",
+  "argowf",
   {
     namespace: ns.metadata.name,
-    chart: "argo-cd",
+    chart: "argo-workflows",
     fetchOpts: { repo: "https://argoproj.github.io/argo-helm" },
     values: {
       installCRDs: true,
-      configs: {
-        params: {
-          "server.insecure": true,
-        },
-      },
     },
   },
   { provider: targets.k8sProvider },
@@ -41,12 +37,12 @@ export const chart = new k8s.helm.v3.Chart(
 // http routes
 
 export const httpRoute = new k8s.apiextensions.CustomResource(
-  "argocd",
+  "argowf",
   {
     apiVersion: "gateway.networking.k8s.io/v1beta1",
     kind: "HTTPRoute",
     metadata: {
-      name: "argocd",
+      name: "argowf",
       namespace: ns.metadata.name,
     },
     spec: {
@@ -57,15 +53,15 @@ export const httpRoute = new k8s.apiextensions.CustomResource(
         },
       ],
       hostnames: [
-        "cd.eser.land",
+        "workflows.eser.land",
       ],
       rules: [
         {
           backendRefs: [
             {
-              name: "argocd-server",
+              name: "argowf-argo-workflows-server",
               namespace: ns.metadata.name,
-              port: 80,
+              port: 2746,
             },
           ],
         },

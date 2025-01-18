@@ -15,6 +15,11 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# sensitive files
+*.key
+*.pem
+*.swp
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -22,6 +27,19 @@ Thumbs.db
 *.so
 *.dylib
 
-# sensitive files
-*.pem
-*.swp
+# Test binaries, coverage and testing tool outputs
+*.test
+*.out
+cov_profile.lcov
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Build output and temporary files
+__debug_bin*
+build-errors.log
+tmp/*
+!tmp/.gitkeep
+
+# Todos
+TODOS
