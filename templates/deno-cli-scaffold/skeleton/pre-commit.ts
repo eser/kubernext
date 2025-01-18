@@ -1,4 +1,5 @@
-import metadata from "./src/metadata.json" assert { type: "json" };
+// Copyright 2023-present Eser Ozvataf and other contributors. All rights reserved. Apache-2.0 license.
+import metadata from "./src/metadata.json" with { type: "json" };
 import { fromFileUrl } from "$std/path/posix.ts";
 
 const main = async () => {

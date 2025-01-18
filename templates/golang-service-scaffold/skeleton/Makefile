@@ -17,7 +17,7 @@ run: build
 	./${BINARY_NAME}
 
 run-docker:
-	docker compose -f ./docker-compose.yml up
+	docker compose -f ./compose.yml up
 
 clean:
 	go clean
