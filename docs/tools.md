@@ -4,6 +4,10 @@
 - [Kubernetes](https://kubernetes.io/) for container orchestration
 - [Argo Workflows](https://argoproj.github.io/workflows) for worker tasks
 - [ArgoCD](https://argoproj.github.io/cd) for GitOps
+- [Prometheus](https://prometheus.io/) for metrics
+- [Grafana](https://grafana.com/) for monitoring
+- [Istio](https://istio.io/) for service mesh
+- [MetalLB](https://metallb.universe.tf/) for load balancer
 
 ## Possible Ambiguity
 
