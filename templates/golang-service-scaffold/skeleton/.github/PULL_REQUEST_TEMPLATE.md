@@ -1,1 +1,0 @@
-- [x] My submissions follows the **Submission Rules**

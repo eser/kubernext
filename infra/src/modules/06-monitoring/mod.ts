@@ -36,6 +36,29 @@ export const kubePrometheusStackChart = new k8s.helm.v3.Release(
   { provider: targets.k8sProvider, dependsOn: [ns] },
 );
 
+// grafana secrets
+
+const updatedData = {
+  "admin-user": Buffer.from(config.grafanaUsername).toString("base64"),
+  "admin-password": Buffer.from(config.grafanaPassword).toString("base64"),
+};
+
+export const grafanaSecret = new k8s.core.v1.Secret(
+  "grafana-secret",
+  {
+    metadata: {
+      annotations: {
+        "pulumi.com/patchForce": "true",
+      },
+      name: "prom-grafana",
+      namespace: ns.metadata.name,
+    },
+    type: "Opaque",
+    data: updatedData,
+  },
+  { provider: targets.k8sProvider, dependsOn: [ns, kubePrometheusStackChart] },
+);
+
 // http routes
 
 export const httpRoute = new k8s.apiextensions.CustomResource(

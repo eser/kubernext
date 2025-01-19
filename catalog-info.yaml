@@ -1,9 +1,0 @@
-apiVersion: backstage.io/v1alpha1
-kind: Location
-metadata:
-  name: templates
-  description: A collection of templates
-spec:
-  targets:
-    - ./templates/deno-cli-scaffold/catalog-info.yaml
-    - ./templates/golang-service-scaffold/catalog-info.yaml

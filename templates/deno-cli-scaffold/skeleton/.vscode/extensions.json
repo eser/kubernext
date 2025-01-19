@@ -1,8 +1,0 @@
-{
-  "recommendations": [
-    "denoland.vscode-deno",
-    "ryanluker.vscode-coverage-gutters",
-    "chdsbd.github-code-owners",
-    "humao.rest-client"
-  ]
-}

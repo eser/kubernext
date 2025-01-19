@@ -10,6 +10,11 @@ export const loadBalancerAddressPool = instance.get("loadBalancerAddressPool");
 
 export const domain = instance.require("domain");
 
+// grafana
+
+export const grafanaUsername = instance.require("grafanaUsername");
+export const grafanaPassword = instance.require("grafanaPassword");
+
 // keys
 
 export const privateKey = instance.get("privateKey");
