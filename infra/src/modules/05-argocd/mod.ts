@@ -1,5 +1,6 @@
 // Copyright 2023-present Eser Ozvataf and other contributors. All rights reserved. Apache-2.0 license.
 import * as k8s from "@pulumi/kubernetes";
+import * as config from "../../config";
 import * as targets from "../../targets";
 import * as gateway from "../03-gateway/mod";
 
@@ -7,7 +8,7 @@ import * as gateway from "../03-gateway/mod";
 
 const nsName = "argocd";
 export const ns = new k8s.core.v1.Namespace(
-  nsName,
+  "argocd-namespace",
   {
     metadata: {
       name: nsName,
@@ -21,12 +22,13 @@ export const ns = new k8s.core.v1.Namespace(
 
 // helm charts
 
-export const chart = new k8s.helm.v3.Chart(
-  "argocd",
+export const chart = new k8s.helm.v3.Release(
+  "argocd-helm-chart",
   {
+    name: "argocd",
     namespace: ns.metadata.name,
     chart: "argo-cd",
-    fetchOpts: { repo: "https://argoproj.github.io/argo-helm" },
+    repositoryOpts: { repo: "https://argoproj.github.io/argo-helm" },
     values: {
       installCRDs: true,
       configs: {
@@ -36,13 +38,13 @@ export const chart = new k8s.helm.v3.Chart(
       },
     },
   },
-  { provider: targets.k8sProvider },
+  { provider: targets.k8sProvider, dependsOn: [ns] },
 );
 
 // http routes
 
 export const httpRoute = new k8s.apiextensions.CustomResource(
-  "argocd",
+  "argocd-http-route",
   {
     apiVersion: "gateway.networking.k8s.io/v1beta1",
     kind: "HTTPRoute",
@@ -58,7 +60,7 @@ export const httpRoute = new k8s.apiextensions.CustomResource(
         },
       ],
       hostnames: [
-        "cd.eser.land",
+        `cd.${config.domain}`,
       ],
       rules: [
         {
@@ -73,5 +75,5 @@ export const httpRoute = new k8s.apiextensions.CustomResource(
       ],
     },
   },
-  { provider: targets.k8sProvider },
+  { provider: targets.k8sProvider, dependsOn: [ns] },
 );

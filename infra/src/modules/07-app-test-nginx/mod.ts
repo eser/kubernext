@@ -8,7 +8,7 @@ const appName = "nginx-test";
 // argocd application
 
 export const application = new k8s.apiextensions.CustomResource(
-  appName,
+  "nginx-test-application",
   {
     apiVersion: "argoproj.io/v1alpha1",
     kind: "Application",
@@ -29,5 +29,5 @@ export const application = new k8s.apiextensions.CustomResource(
       }
     },
   },
-  { provider: targets.k8sProvider },
+  { provider: targets.k8sProvider, dependsOn: [argocd.chart] },
 );

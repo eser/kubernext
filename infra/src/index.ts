@@ -5,4 +5,5 @@ import "./modules/02-istio/mod";
 import "./modules/03-gateway/mod";
 import "./modules/04-argowf/mod";
 import "./modules/05-argocd/mod";
-import "./modules/06-test-nginx/mod";
+import "./modules/06-monitoring/mod";
+import "./modules/07-app-test-nginx/mod";

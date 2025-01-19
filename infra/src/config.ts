@@ -5,8 +5,10 @@ export const cwd = process.cwd();
 
 export const instance = new pulumi.Config();
 
-export const installLoadBalancer = instance.requireBoolean("installLoadBalancer");
+export const installLoadBalancer = instance.getBoolean("installLoadBalancer");
 export const loadBalancerAddressPool = instance.get("loadBalancerAddressPool");
+
+export const domain = instance.require("domain");
 
 // keys
 
