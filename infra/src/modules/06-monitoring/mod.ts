@@ -22,12 +22,12 @@ export const ns = new k8s.core.v1.Namespace(
 
 // helm charts
 
-export const prometheusChart = new k8s.helm.v3.Release(
-  "prometheus-helm-chart",
+export const kubePrometheusStackChart = new k8s.helm.v3.Release(
+  "kube-prometheus-stack-helm-chart",
   {
     name: "prom",
     namespace: ns.metadata.name,
-    chart: "prometheus",
+    chart: "kube-prometheus-stack",
     repositoryOpts: { repo: "https://prometheus-community.github.io/helm-charts" },
     values: {
       installCRDs: true,
@@ -36,55 +36,39 @@ export const prometheusChart = new k8s.helm.v3.Release(
   { provider: targets.k8sProvider, dependsOn: [ns] },
 );
 
-
-export const kubePrometheusStackChart = new k8s.helm.v3.Release(
-  "kube-prometheus-stack-helm-chart",
-  {
-    name: "prom-stack",
-    namespace: ns.metadata.name,
-    chart: "kube-prometheus-stack",
-    repositoryOpts: { repo: "https://prometheus-community.github.io/helm-charts" },
-    values: {
-      installCRDs: true,
-      "nodeExporter.enabled": false,
-    },
-  },
-  { provider: targets.k8sProvider, dependsOn: [ns, prometheusChart] },
-);
-
 // http routes
 
-// export const httpRoute = new k8s.apiextensions.CustomResource(
-//   "monitoring-http-route",
-//   {
-//     apiVersion: "gateway.networking.k8s.io/v1beta1",
-//     kind: "HTTPRoute",
-//     metadata: {
-//       name: "monitoring",
-//       namespace: ns.metadata.name,
-//     },
-//     spec: {
-//       parentRefs: [
-//         {
-//           name: gateway.gateway.metadata.name,
-//           namespace: gateway.gateway.metadata.namespace,
-//         },
-//       ],
-//       hostnames: [
-//         `monitoring.${config.domain}`,
-//       ],
-//       rules: [
-//         {
-//           backendRefs: [
-//             {
-//               name: "argocd-server",
-//               namespace: ns.metadata.name,
-//               port: 80,
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   },
-//   { provider: targets.k8sProvider, dependsOn: [ns] },
-// );
+export const httpRoute = new k8s.apiextensions.CustomResource(
+  "grafana-http-route",
+  {
+    apiVersion: "gateway.networking.k8s.io/v1beta1",
+    kind: "HTTPRoute",
+    metadata: {
+      name: "grafana",
+      namespace: ns.metadata.name,
+    },
+    spec: {
+      parentRefs: [
+        {
+          name: gateway.gateway.metadata.name,
+          namespace: gateway.gateway.metadata.namespace,
+        },
+      ],
+      hostnames: [
+        `grafana.${config.domain}`,
+      ],
+      rules: [
+        {
+          backendRefs: [
+            {
+              name: "prom-grafana",
+              namespace: ns.metadata.name,
+              port: 80,
+            },
+          ],
+        },
+      ],
+    },
+  },
+  { provider: targets.k8sProvider, dependsOn: [ns, kubePrometheusStackChart] },
+);
